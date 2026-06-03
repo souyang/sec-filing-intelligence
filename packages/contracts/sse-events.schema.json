@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "FilingStageEvent": {
+      "properties": {
+        "type": {
+          "const": "filing.stage",
+          "default": "filing.stage",
+          "title": "Type",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "filing_id": {
+          "format": "uuid",
+          "title": "Filing Id",
+          "type": "string"
+        },
+        "ticker": {
+          "title": "Ticker",
+          "type": "string"
+        },
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        }
+      },
+      "required": [
+        "run_id",
+        "filing_id",
+        "ticker",
+        "stage",
+        "status"
+      ],
+      "title": "FilingStageEvent",
+      "type": "object"
+    },
+    "RunCounterEvent": {
+      "properties": {
+        "type": {
+          "const": "run.counters",
+          "default": "run.counters",
+          "title": "Type",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "completed": {
+          "default": 0,
+          "title": "Completed",
+          "type": "integer"
+        },
+        "failed": {
+          "default": 0,
+          "title": "Failed",
+          "type": "integer"
+        },
+        "review_pending": {
+          "default": 0,
+          "title": "Review Pending",
+          "type": "integer"
+        },
+        "in_progress": {
+          "default": 0,
+          "title": "In Progress",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "run_id"
+      ],
+      "title": "RunCounterEvent",
+      "type": "object"
+    },
+    "RunStatusEvent": {
+      "properties": {
+        "type": {
+          "const": "run.status",
+          "default": "run.status",
+          "title": "Type",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        }
+      },
+      "required": [
+        "run_id",
+        "status"
+      ],
+      "title": "RunStatusEvent",
+      "type": "object"
+    },
+    "WorkerMetricEvent": {
+      "properties": {
+        "type": {
+          "const": "worker.metric",
+          "default": "worker.metric",
+          "title": "Type",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "metric": {
+          "title": "Metric",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "run_id",
+        "metric",
+        "value"
+      ],
+      "title": "WorkerMetricEvent",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "filing.stage": "#/$defs/FilingStageEvent",
+      "run.counters": "#/$defs/RunCounterEvent",
+      "run.status": "#/$defs/RunStatusEvent",
+      "worker.metric": "#/$defs/WorkerMetricEvent"
+    },
+    "propertyName": "type"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/RunCounterEvent"
+    },
+    {
+      "$ref": "#/$defs/FilingStageEvent"
+    },
+    {
+      "$ref": "#/$defs/RunStatusEvent"
+    },
+    {
+      "$ref": "#/$defs/WorkerMetricEvent"
+    }
+  ]
+}

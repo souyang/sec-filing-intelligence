@@ -1,0 +1,5 @@
+Extract financial KPIs from the filing text for {{ ticker }}.
+
+{{ text }}
+
+Respond JSON: {"kpi_data": [{"metric": "", "value": "", "period": "", "citations": []}]}

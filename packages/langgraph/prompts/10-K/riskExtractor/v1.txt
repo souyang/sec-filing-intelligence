@@ -1,0 +1,7 @@
+Extract structured risk factors from Item 1A. Include citations with section excerpts.
+
+Ticker: {{ ticker }}
+Text:
+{{ text }}
+
+Respond with JSON matching risk_factors schema with title, summary, severity, citations.

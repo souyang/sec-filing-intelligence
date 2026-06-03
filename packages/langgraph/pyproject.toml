@@ -1,0 +1,22 @@
+[project]
+name = "sec-alphaops-langgraph"
+version = "0.1.0"
+description = "LangGraph extraction pipeline"
+requires-python = ">=3.12"
+dependencies = [
+    "sec-alphaops-common",
+    "langgraph>=0.3.5",
+    "langchain-core>=0.3.45",
+    "langchain-openai>=0.3.8",
+    "langchain-ollama>=0.3.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sec_alphaops_langgraph"]
+
+[tool.uv.sources]
+sec-alphaops-common = { workspace = true }

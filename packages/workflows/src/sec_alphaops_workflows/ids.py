@@ -1,0 +1,6 @@
+TASK_QUEUE_DEFAULT = "sec-alphaops"
+WORKFLOW_BATCH = "BatchOrchestratorWorkflow"
+WORKFLOW_CACHE_HYDRATE = "CacheHydrateWorkflow"
+WORKFLOW_FILING = "FilingProcessingWorkflow"
+WORKFLOW_HUMAN_REVIEW = "HumanReviewWorkflow"
+WORKFLOW_REPROCESSING = "ReprocessingWorkflow"

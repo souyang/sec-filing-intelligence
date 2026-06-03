@@ -1,0 +1,15 @@
+{
+  "name": "@sec-alphaops/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "generate:openapi": "openapi-typescript ${OPENAPI_URL:-http://localhost:8000/openapi.json} -o ./api.d.ts",
+    "generate:sse-schema": "node ./scripts/export-sse-schema.mjs",
+    "generate": "pnpm run generate:sse-schema && pnpm run generate:openapi",
+    "check": "node ./scripts/check-contract-drift.mjs"
+  },
+  "devDependencies": {
+    "json-schema-to-zod": "^2.6.0",
+    "openapi-typescript": "^7.6.2"
+  }
+}

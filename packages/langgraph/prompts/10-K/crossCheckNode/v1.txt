@@ -1,0 +1,5 @@
+Cross-check extracted risks and KPIs for consistency. Ticker: {{ ticker }}
+
+{{ text }}
+
+Respond JSON: {"policy_flags": [], "rationale": ""}

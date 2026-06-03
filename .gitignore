@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Next.js
+apps/web/.next/
+apps/web/out/
+
+# Python
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+uv.lock.bak
+
+# Generated contracts (regenerated in CI; api.d.ts is committed)
+packages/contracts/src/generated/
+
+# Logs
+*.log
+
+# SEC local cache
+.edgar/

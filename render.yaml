@@ -1,0 +1,70 @@
+# Render blueprint reference — create services manually or via Blueprint sync.
+# Deploy order: worker → api → (Vercel web separately)
+
+services:
+  - type: web
+    name: sec-alphaops-api
+    runtime: python
+    buildCommand: uv sync --all-packages && uv run alphaops-migrate
+    startCommand: uv run --package sec-alphaops-api uvicorn sec_alphaops_api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sec-alphaops-db
+          property: connectionString
+      - key: REDIS_URL
+        sync: false
+      - key: TEMPORAL_ADDRESS
+        sync: false
+      - key: TEMPORAL_NAMESPACE
+        value: default
+      - key: TEMPORAL_TASK_QUEUE
+        value: sec-alphaops
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: LLM_PROVIDER
+        value: openai
+
+  - type: worker
+    name: sec-alphaops-worker
+    runtime: python
+    buildCommand: uv sync --all-packages
+    startCommand: uv run --package sec-alphaops-worker python -m sec_alphaops_worker.main
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sec-alphaops-db
+          property: connectionString
+      - key: REDIS_URL
+        sync: false
+      - key: TEMPORAL_ADDRESS
+        sync: false
+      - key: TEMPORAL_NAMESPACE
+        value: default
+      - key: TEMPORAL_TASK_QUEUE
+        value: sec-alphaops
+      - key: R2_ENDPOINT
+        sync: false
+      - key: R2_BUCKET
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: SEC_EDGAR_IDENTITY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: LLM_PROVIDER
+        value: openai
+
+databases:
+  - name: sec-alphaops-db
+    plan: starter

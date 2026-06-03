@@ -1,0 +1,3 @@
+Score confidence 0-1 for extraction quality. Ticker: {{ ticker }}
+
+Respond JSON: {"confidence": 0.85}

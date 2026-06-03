@@ -1,0 +1,25 @@
+name: Deploy API and Worker
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-backend-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy worker (Render hook)
+        if: env.RENDER_WORKER_DEPLOY_HOOK_URL != ''
+        env:
+          RENDER_WORKER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_WORKER_DEPLOY_HOOK_URL }}
+        run: curl -fsSL -X POST "$RENDER_WORKER_DEPLOY_HOOK_URL"
+      - name: Deploy API (Render hook)
+        if: env.RENDER_API_DEPLOY_HOOK_URL != ''
+        env:
+          RENDER_API_DEPLOY_HOOK_URL: ${{ secrets.RENDER_API_DEPLOY_HOOK_URL }}
+        run: curl -fsSL -X POST "$RENDER_API_DEPLOY_HOOK_URL"

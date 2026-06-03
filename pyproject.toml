@@ -1,0 +1,50 @@
+[project]
+name = "sec-alphaops"
+version = "0.1.0"
+description = "Configurable SEC filing intelligence pipeline"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.uv.workspace]
+members = [
+    "apps/api",
+    "apps/worker",
+    "packages/common",
+    "packages/db",
+    "packages/workflows",
+    "packages/langgraph",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.25.3",
+    "pytest-cov>=6.0.0",
+    "mypy>=1.15.0",
+    "ruff>=0.9.10",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"apps/api/**" = ["B008"]
+"packages/langgraph/**" = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["packages/common/src", "packages/langgraph/src", "packages/db/src"]
+markers = [
+    "integration: marks tests requiring docker services",
+]

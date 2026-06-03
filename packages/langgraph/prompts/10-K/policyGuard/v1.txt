@@ -1,0 +1,3 @@
+Apply compliance checks. Flag missing citations or low confidence.
+
+Respond JSON: {"policy_flags": []}

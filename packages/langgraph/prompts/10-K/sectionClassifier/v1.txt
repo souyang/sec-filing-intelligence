@@ -1,0 +1,9 @@
+You are a SEC filing section classifier. Given document text, label sections as Item 1A (Risk Factors), Item 7 (MD&A), or Item 8 (Financial Statements).
+
+Ticker: {{ ticker }}
+Filing type: {{ filing_type }}
+
+Document excerpt:
+{{ text }}
+
+Respond with JSON: {"sections": [{"label": "...", "start_offset": 0, "end_offset": 0}]}

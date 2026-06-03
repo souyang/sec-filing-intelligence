@@ -1,0 +1,24 @@
+[project]
+name = "sec-alphaops-db"
+version = "0.1.0"
+description = "Postgres schema and repository layer"
+requires-python = ">=3.12"
+dependencies = [
+    "sec-alphaops-common",
+    "sqlalchemy[asyncio]>=2.0.38",
+    "asyncpg>=0.30.0",
+    "alembic>=1.14.1",
+]
+
+[project.scripts]
+alphaops-migrate = "sec_alphaops_db.migrate:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sec_alphaops_db"]
+
+[tool.uv.sources]
+sec-alphaops-common = { workspace = true }
