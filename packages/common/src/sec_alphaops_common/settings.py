@@ -13,6 +13,8 @@ class BaseServiceSettings(BaseSettings):
     temporal_address: str = "localhost:7233"
     temporal_namespace: str = "default"
     temporal_task_queue: str = "sec-alphaops"
+    # Temporal Cloud: set address, namespace, and API key (TLS is enabled when api_key is set)
+    temporal_api_key: str | None = None
     r2_endpoint: str | None = None
     r2_bucket: str | None = None
     r2_access_key_id: str | None = None

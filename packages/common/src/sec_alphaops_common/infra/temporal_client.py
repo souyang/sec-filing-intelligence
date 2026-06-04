@@ -1,24 +1,39 @@
 from __future__ import annotations
 
-from functools import lru_cache
 from typing import Any
 
 from temporalio.client import Client
 
+from sec_alphaops_common.settings import BaseServiceSettings
 
-@lru_cache(maxsize=1)
-def _client_cache_key(address: str, namespace: str) -> tuple[str, str]:
-    return address, namespace
-
-
-_clients: dict[tuple[str, str], Client] = {}
+_clients: dict[tuple[str, str, bool], Client] = {}
 
 
-async def get_temporal_client(address: str, namespace: str) -> Client:
-    key = (address, namespace)
-    if key not in _clients:
-        _clients[key] = await Client.connect(address, namespace=namespace)
-    return _clients[key]
+async def get_temporal_client(
+    address: str,
+    namespace: str,
+    api_key: str | None = None,
+) -> Client:
+    """Connect to Temporal Server or Temporal Cloud (API key enables TLS automatically)."""
+    cache_key = (address, namespace, bool(api_key))
+    if cache_key not in _clients:
+        if api_key:
+            _clients[cache_key] = await Client.connect(
+                address,
+                namespace=namespace,
+                api_key=api_key,
+            )
+        else:
+            _clients[cache_key] = await Client.connect(address, namespace=namespace)
+    return _clients[cache_key]
+
+
+async def get_temporal_client_from_settings(settings: BaseServiceSettings) -> Client:
+    return await get_temporal_client(
+        settings.temporal_address,
+        settings.temporal_namespace,
+        settings.temporal_api_key,
+    )
 
 
 async def start_workflow(

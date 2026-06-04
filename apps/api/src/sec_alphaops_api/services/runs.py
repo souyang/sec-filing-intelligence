@@ -3,7 +3,10 @@ from __future__ import annotations
 import uuid
 
 from sec_alphaops_common.config.run_profile import RunProfile
-from sec_alphaops_common.infra.temporal_client import get_temporal_client, start_workflow
+from sec_alphaops_common.infra.temporal_client import (
+    get_temporal_client_from_settings,
+    start_workflow,
+)
 from sec_alphaops_common.schemas.run import CreateBatchRunResponse, WorkflowRunStatus
 from sec_alphaops_db.repositories import RunRepository
 from sec_alphaops_workflows.batch import BatchOrchestratorInput, BatchOrchestratorWorkflow
@@ -29,7 +32,7 @@ class RunService:
         await self._runs.create(run_id, workflow_id, profile, total)
         await self._runs.update_counters(run_id, status=WorkflowRunStatus.RUNNING.value)
 
-        client = await get_temporal_client(settings.temporal_address, settings.temporal_namespace)
+        client = await get_temporal_client_from_settings(settings)
         await start_workflow(
             client,
             BatchOrchestratorWorkflow.run,
@@ -46,7 +49,7 @@ class RunService:
 
     async def start_cache_hydrate(self, profile: RunProfile) -> str:
         workflow_id = f"hydrate-{uuid.uuid4()}"
-        client = await get_temporal_client(settings.temporal_address, settings.temporal_namespace)
+        client = await get_temporal_client_from_settings(settings)
         await start_workflow(
             client,
             CacheHydrateWorkflow.run,

@@ -2,6 +2,19 @@
 
 Configurable batch SEC filing intelligence pipeline (10-K MVP) using Temporal, LangGraph, FastAPI, Postgres, Redis, and a Next.js SSE dashboard.
 
+## Temporal Cloud (API key)
+
+Set in `.env` (API + worker):
+
+```bash
+TEMPORAL_ADDRESS=<namespace>.<account>.tmprl.cloud:7233
+TEMPORAL_NAMESPACE=<namespace>.<account>
+TEMPORAL_API_KEY=<your-api-key>
+TEMPORAL_TASK_QUEUE=sec-alphaops
+```
+
+Leave `TEMPORAL_API_KEY` unset for local Docker Temporal (`localhost:7233`).
+
 ## Quick start (local)
 
 ```bash

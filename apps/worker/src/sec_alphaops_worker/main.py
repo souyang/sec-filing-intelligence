@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 
+from sec_alphaops_common.infra.temporal_client import get_temporal_client_from_settings
 from sec_alphaops_workflows import (
     BatchOrchestratorWorkflow,
     CacheHydrateWorkflow,
@@ -9,7 +10,6 @@ from sec_alphaops_workflows import (
     HumanReviewWorkflow,
     ReprocessingWorkflow,
 )
-from temporalio.client import Client
 from temporalio.worker import Worker
 
 from sec_alphaops_worker.activities import (
@@ -30,10 +30,7 @@ from sec_alphaops_worker.settings import settings
 
 
 async def main() -> None:
-    client = await Client.connect(
-        settings.temporal_address,
-        namespace=settings.temporal_namespace,
-    )
+    client = await get_temporal_client_from_settings(settings)
     worker = Worker(
         client,
         task_queue=settings.temporal_task_queue,

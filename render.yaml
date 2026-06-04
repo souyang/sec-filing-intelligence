@@ -20,7 +20,9 @@ services:
       - key: TEMPORAL_ADDRESS
         sync: false
       - key: TEMPORAL_NAMESPACE
-        value: default
+        sync: false
+      - key: TEMPORAL_API_KEY
+        sync: false
       - key: TEMPORAL_TASK_QUEUE
         value: sec-alphaops
       - key: ALLOWED_ORIGINS
@@ -47,7 +49,9 @@ services:
       - key: TEMPORAL_ADDRESS
         sync: false
       - key: TEMPORAL_NAMESPACE
-        value: default
+        sync: false
+      - key: TEMPORAL_API_KEY
+        sync: false
       - key: TEMPORAL_TASK_QUEUE
         value: sec-alphaops
       - key: R2_ENDPOINT

@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import uuid
 
-from sec_alphaops_common.infra.temporal_client import execute_update, get_temporal_client
+from sec_alphaops_common.infra.temporal_client import (
+    execute_update,
+    get_temporal_client_from_settings,
+)
 from sec_alphaops_common.schemas.review import (
     ReviewDecisionRequest,
     ReviewDecisionResponse,
@@ -62,7 +65,7 @@ class ReviewService:
             edited_analysis=body.edited_analysis,
             note=body.note,
         )
-        client = await get_temporal_client(settings.temporal_address, settings.temporal_namespace)
+        client = await get_temporal_client_from_settings(settings)
         result = await execute_update(
             client,
             task.temporal_workflow_id,
